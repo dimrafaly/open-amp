@@ -22,8 +22,8 @@ int rpmsg_rpc_server_init(struct rpmsg_rpc_svr *rpcs, struct rpmsg_device *rdev,
 	rpcs->services = services;
 	rpcs->n_services = len;
 
-	ret = rpmsg_create_ept(&rpcs->ept, rdev, RPMSG_RPC_SERVICE_NAME,
-			       RPMSG_ADDR_ANY, RPMSG_ADDR_ANY,
+	ret = rpmsg_create_ept(&rpcs->ept, rdev, RPMSG_RPC_SVR_SERVICE_NAME,
+			       RPMSG_RPC_SVR_SRC_ADDR, RPMSG_RPC_SVR_DST_ADDR,
 			       rpmsg_endpoint_server_cb,
 			       rpmsg_service_server_unbind);
 	if (ret)

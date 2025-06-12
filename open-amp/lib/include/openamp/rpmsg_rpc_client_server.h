@@ -17,7 +17,24 @@ extern "C" {
 
 #define RPMSG_RPC_OK		0
 #define RPMSG_RPC_INVALID_ID	(-1L)
-#define RPMSG_RPC_SERVICE_NAME "rpmsg-rpc"
+#ifndef RPMSG_RPC_SVR_SERVICE_NAME
+#define RPMSG_RPC_SVR_SERVICE_NAME "rpmsg-rpc"
+#endif
+#ifndef RPMSG_RPC_SVR_SRC_ADDR
+#define RPMSG_RPC_SVR_SRC_ADDR RPMSG_ADDR_ANY
+#endif
+#ifndef RPMSG_RPC_SVR_DST_ADDR
+#define RPMSG_RPC_SVR_DST_ADDR RPMSG_ADDR_ANY
+#endif
+#ifndef RPMSG_RPC_CLT_SERVICE_NAME
+#define RPMSG_RPC_CLT_SERVICE_NAME "rpmsg-rpc"
+#endif
+#ifndef RPMSG_RPC_CLT_SRC_ADDR
+#define RPMSG_RPC_CLT_SRC_ADDR RPMSG_ADDR_ANY
+#endif
+#ifndef RPMSG_RPC_CLT_DST_ADDR
+#define RPMSG_RPC_CLT_DST_ADDR RPMSG_ADDR_ANY
+#endif
 
 /* RPMSG_BUFFER_SIZE = 512
  * sizeof(struct rpmsg_hdr) = 16

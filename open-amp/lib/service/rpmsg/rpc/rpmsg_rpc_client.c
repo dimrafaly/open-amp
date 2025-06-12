@@ -39,8 +39,8 @@ int rpmsg_rpc_client_init(struct rpmsg_rpc_clt *rpc,
 	rpc->shutdown_cb = shutdown_cb;
 
 	ret = rpmsg_create_ept(&rpc->ept, rdev,
-			       RPMSG_RPC_SERVICE_NAME, RPMSG_ADDR_ANY,
-			       RPMSG_ADDR_ANY,
+			       RPMSG_RPC_CLT_SERVICE_NAME, RPMSG_RPC_CLT_SRC_ADDR,
+			       RPMSG_RPC_CLT_DST_ADDR,
 			       rpmsg_endpoint_client_cb,
 			       rpmsg_service_client_unbind);
 
