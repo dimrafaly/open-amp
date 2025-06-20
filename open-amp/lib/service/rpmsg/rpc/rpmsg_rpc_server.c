@@ -33,11 +33,11 @@ int rpmsg_rpc_server_init(struct rpmsg_rpc_svr *rpcs, struct rpmsg_device *rdev,
 }
 
 static const struct rpmsg_rpc_services *find_service(struct rpmsg_rpc_svr *rpcs,
-						     unsigned int id)
+						     uint32_t id)
 {
 	const struct rpmsg_rpc_services *service;
 
-	for (unsigned int i = 0; i < rpcs->n_services; i++) {
+	for (uint32_t i = 0; i < rpcs->n_services; i++) {
 		service = &rpcs->services[i];
 
 		if (service->id == id) {
@@ -52,7 +52,7 @@ static int rpmsg_endpoint_server_cb(struct rpmsg_endpoint *ept, void *data,
 				    uint32_t src, void *priv)
 {
 	unsigned char buf[MAX_BUF_LEN];
-	unsigned int id;
+	uint32_t id;
 	const struct rpmsg_rpc_services *service;
 	struct rpmsg_rpc_svr *rpcs;
 	(void)priv;
@@ -64,7 +64,7 @@ static int rpmsg_endpoint_server_cb(struct rpmsg_endpoint *ept, void *data,
 	rpcs = metal_container_of(ept, struct rpmsg_rpc_svr, ept);
 
 	memcpy(buf, data, len);
-	id = *buf;
+	id = *(uint32_t*)buf;
 	service = find_service(rpcs, id);
 
 	if (service) {
@@ -93,6 +93,5 @@ int rpmsg_rpc_server_send(struct rpmsg_rpc_svr *rpcs, uint32_t rpc_id,
 	msg.id = rpc_id;
 	msg.status = status;
 	memcpy(msg.params, request_param, param_size);
-
-	return rpmsg_send(ept, &msg, MAX_FUNC_ID_LEN + param_size);
+	return rpmsg_send(ept, &msg, MAX_FUNC_ID_LEN + sizeof(msg.status) +  param_size);
 }
