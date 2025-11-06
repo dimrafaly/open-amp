@@ -12,9 +12,10 @@
 #include <openamp/remoteproc.h>
 #include <openamp/remoteproc_virtio.h>
 #include <openamp/virtqueue.h>
-#include <metal/cpu.h>
+#include <metal/sys.h>
 #include <metal/utilities.h>
 #include <metal/alloc.h>
+#include <metal/sleep.h>
 
 static void rproc_virtio_delete_virtqueues(struct virtio_device *vdev)
 {
@@ -204,11 +205,11 @@ static void rproc_virtio_set_features(struct virtio_device *vdev,
 static uint32_t rproc_virtio_negotiate_features(struct virtio_device *vdev,
 						uint32_t features)
 {
-	uint32_t dfeatures = rproc_virtio_get_dfeatures(vdev);
+	features = features & rproc_virtio_get_dfeatures(vdev);
+	rproc_virtio_set_features(vdev, features);
 
-	rproc_virtio_set_features(vdev, dfeatures & features);
-
-	return 0;
+	/* return the mask of features successfully negotiated */
+	return features;
 }
 #endif
 
@@ -412,6 +413,6 @@ void rproc_virtio_wait_remote_ready(struct virtio_device *vdev)
 		status = rproc_virtio_get_status(vdev);
 		if (status & VIRTIO_CONFIG_STATUS_DRIVER_OK)
 			return;
-		metal_cpu_yield();
+		metal_sleep_usec(1000);
 	}
 }
