@@ -69,7 +69,7 @@ static int rpmsg_endpoint_server_cb(struct rpmsg_endpoint *ept, void *data,
 
 	if (service) {
 		if (service->cb_function(buf, rpcs)) {
-			LPERROR("Service failed at rpc id: %ld\r\n", id);
+			// LPERROR("Service failed at rpc id: %ld\r\n", id);
 		}
 	} else {
 		LPERROR("Handling remote procedure call errors: rpc id %ld\r\n",
